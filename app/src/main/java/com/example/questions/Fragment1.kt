@@ -32,6 +32,7 @@ class Fragment1 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,8 +40,14 @@ class Fragment1 : Fragment() {
     ): View {
         Log.d("testLife", "onCreateView fragment 1")
 
-        viewModel = ViewModelProvider(this).get(Fragment1ViewModel::class.java)
-        viewModel.getLiveData().observe(viewLifecycleOwner) { renderData(it) }
+        //viewModel = ViewModelProvider(this).get(Fragment1ViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity(),
+            Fragment1ViewModel.Fragment1ViewModelFactory(requireActivity().application)
+        ).get(Fragment1ViewModel::class.java)
+        viewModel.getLiveData().observe(viewLifecycleOwner) {
+            renderData(it)
+            val sedgf = viewModel.liveData2
+        }
 
         _binding = Fragment1Binding.inflate(layoutInflater)
 
